@@ -57,7 +57,7 @@ var AudioJS = JRClass.extend({
       controlsAtStart: true, // Make controls visible when page loads
       controlsHiding: false, // Hide controls when not over the audio
       defaultVolume: 0.85, // Will be overridden by localStorage volume if available
-      playerFallbackOrder: ["html5", "links"], // Players and order to use them
+      playerFallbackOrder: ["html5", "links"] // Players and order to use them
     };
     // Override default options with global options
     if (typeof AudioJS.options == "object") { _V_.merge(this.options, AudioJS.options); }
