@@ -53,7 +53,6 @@ var AudioJS = JRClass.extend({
       autoplay: false,
       preload: true,
       useBuiltInControls: false, // Use the browser's controls (iPhone)
-      controlsBelow: true, // Display control bar below audio vs. in front of
       controlsAtStart: true, // Make controls visible when page loads
       controlsHiding: false, // Hide controls when not over the audio
       defaultVolume: 0.85, // Will be overridden by localStorage volume if available
@@ -334,9 +333,7 @@ AudioJS.player.extend({
     if (!this.options.useBuiltInControls) {
       this.audio.controls = false;
 
-      if (this.options.controlsBelow) { _V_.addClass(this.box, "ajs-controls-below"); }
-
-      // Make a click on th audio act as a play button
+      // Make a click on the audio act as a play button
       this.activateElement(this.audio, "playToggle");
 
       // Build Interface
@@ -416,7 +413,7 @@ AudioJS.player.extend({
 
   iOSInterface: function(){
     if(AudioJS.iOSVersion() < 4) { this.forceTheSource(); } // Fix loading issues
-    if(AudioJS.isIPad()) { // iPad could work with controlsBelow
+    if(AudioJS.isIPad()) {
       this.buildAndActivateSpinner(); // Spinner still works well on iPad, since iPad doesn't have one
     }
   },
@@ -426,13 +423,12 @@ AudioJS.player.extend({
   androidInterface: function(){
     this.forceTheSource(); // Fix loading issues
     _V_.addListener(this.audio, "click", function(){ this.play(); }); // Required to play
-    this.positionBox();
   },
   /* Wait for styles (TODO: move to _V_)
   ================ */
   loadInterface: function(){
     if (this.options.controlsAtStart) { this.showControlBars(); }
-    this.positionAll();
+    this.positionControlBars();
   },
   /* Control Bar
   ================
@@ -539,20 +535,6 @@ AudioJS.player.extend({
     this.spinner = _V_.createElement("div", {className: "ajs-spinner"});
     this.box.appendChild(this.spinner);
     this.activateElement(this.spinner, "spinner");
-  },
-  /* AudioJS Box - Holds all elements
-  ================ */
-  positionAll: function(){
-    this.positionBox();
-    this.positionControlBars();
-  },
-  positionBox: function(){
-    this.box.style.width = this.width() + "px";
-    this.element.style.height=this.height()+"px";
-    if (this.options.controlsBelow) {
-      this.element.style.height = "";
-      // this.box.style.height = this.audio.offsetHeight + this.controls.offsetHeight + "px";
-    }
   },
 
   /* Player API - Translate functionality from player to audio
@@ -755,7 +737,6 @@ AudioJS.player.newBehavior("mouseOverAudioReporter", function(element){
 /* Mouse Over Audio Reporter Behaviors - i.e. Controls hiding based on mouse location
 ================ */
 AudioJS.player.newBehavior("box", function(element){
-    this.positionBox();
     _V_.addClass(element, "ajs-paused");
     this.activateElement(element, "mouseOverAudioReporter");
     this.onPlay(this.boxOnAudioPlay);
