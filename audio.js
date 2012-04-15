@@ -515,6 +515,13 @@ AudioJS.player.extend({
     this.controls.appendChild(this.volumeControl);
     this.activateElement(this.volumeControl, "volumeScrubber");
 
+    // Create the description display
+    this.descriptionMeta = _V_.createElement("div", {
+      className: "description",
+      innerHTML: this.audio.getAttribute('data-description')
+    });
+    this.controls.appendChild(this.descriptionMeta);
+
     this.volumeDisplay = this.volumeControl.children[0];
     this.activateElement(this.volumeDisplay, "volumeDisplay");
   },
