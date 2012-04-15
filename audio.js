@@ -536,10 +536,7 @@ AudioJS.player.extend({
   /* Spinner (Loading)
   ================ */
   buildAndActivateSpinner: function(){
-    this.spinner = _V_.createElement("div", {
-      className: "ajs-spinner",
-      innerHTML: "<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>"
-    });
+    this.spinner = _V_.createElement("div", {className: "ajs-spinner"});
     this.box.appendChild(this.spinner);
     this.activateElement(this.spinner, "spinner");
   },
@@ -1065,15 +1062,7 @@ AudioJS.player.newBehavior("spinner", function(element){
       clearInterval(this.spinnerInterval);
     },
     spinnersRotated: 0,
-    rotateSpinners: function(){
-      this.each(this.spinners, function(spinner){
-        // spinner.style.transform =       'scale(0.5) rotate('+this.spinnersRotated+'deg)';
-        spinner.style.WebkitTransform = 'scale(0.5) rotate('+this.spinnersRotated+'deg)';
-        spinner.style.MozTransform =    'scale(0.5) rotate('+this.spinnersRotated+'deg)';
-      });
-      if (this.spinnersRotated == 360) { this.spinnersRotated = 0; }
-      this.spinnersRotated += 45;
-    },
+    rotateSpinners: function(){ },
     spinnersOnAudioLoadedData: function(event){ this.hideSpinners(); },
     spinnersOnAudioLoadStart: function(event){ this.showSpinners(); },
     spinnersOnAudioSeeking: function(event){ /* this.showSpinners(); */ },
