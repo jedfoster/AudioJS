@@ -9,8 +9,9 @@ REQUIRED STYLES (be careful overriding)
    If you want to add some kind of frame or special positioning, use another containing element, not audio-js-box. */
 .audio-js-box { text-align: left; position: relative; line-height: 0 !important; margin: 0; padding: 0 !important; border: none !important;  }
 
-/* Video Element */
-audio.audio-js { position: relative; padding: 0; }
+/* Audio Element */
+.audio-js-box audio {	width: 0; height: 0; display: block;}
+.audio-js-box.ajs-ios audio{ width: 100%; height: 3em;}
 
 /* Subtiles Style */
 .audio-js-box .ajs-subtitles { color: #fff; font-size: 20px; text-align: center; position: absolute; bottom: 40px; left: 0; right: 0; }
