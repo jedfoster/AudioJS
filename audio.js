@@ -435,9 +435,10 @@ AudioJS.player.extend({
     this.positionAll();
   },
   /* Control Bar
-  ================ */
-  buildAndActivateControlBar: function(){
-    /* Creating this HTML
+  ================
+
+  Builds this markup:
+
       <div class="ajs-controls">
         <div class="ajs-play-control">
           <span></span>
@@ -453,12 +454,13 @@ AudioJS.player.extend({
         </div>
         <div class="ajs-volume-control">
           <div>
-            <span></span><span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span>
           </div>
         </div>
       </div>
-    */
 
+    */
+  buildAndActivateControlBar: function(){
     // Create a div to hold the different controls
     this.controls = _V_.createElement("div", { className: "ajs-controls" });
     // Add the controls to the audio's container
