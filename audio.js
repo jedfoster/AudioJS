@@ -338,7 +338,6 @@ AudioJS.player.extend({
       this.activateElement(this.audio, "playToggle");
 
       // Build Interface
-      this.buildStylesCheckDiv(); // Used to check if style are loaded
       this.buildAndActivateSpinner();
       this.buildAndActivateControlBar();
       this.loadInterface(); // Show everything once styles are loaded
@@ -431,15 +430,6 @@ AudioJS.player.extend({
   /* Wait for styles (TODO: move to _V_)
   ================ */
   loadInterface: function(){
-    if(!this.stylesHaveLoaded()) {
-      // Don't want to create an endless loop either.
-      if (!this.positionRetries) { this.positionRetries = 1; }
-      if (this.positionRetries++ < 100) {
-        setTimeout(this.loadInterface.context(this),10);
-        return;
-      }
-    }
-    this.hideStylesCheckDiv();
     if (this.options.controlsAtStart) { this.showControlBars(); }
     this.positionAll();
   },
@@ -537,24 +527,6 @@ AudioJS.player.extend({
     });
     this.box.appendChild(this.spinner);
     this.activateElement(this.spinner, "spinner");
-  },
-  /* Styles Check - Check if styles are loaded (move ot _V_)
-  ================ */
-  // Sometimes the CSS styles haven't been applied to the controls yet
-  // when we're trying to calculate the height and position them correctly.
-  // This causes a flicker where the controls are out of place.
-  buildStylesCheckDiv: function(){
-    this.stylesCheckDiv = _V_.createElement("div", { className: "ajs-styles-check" });
-    this.stylesCheckDiv.style.position = "absolute";
-    this.box.appendChild(this.stylesCheckDiv);
-  },
-  hideStylesCheckDiv: function(){ this.stylesCheckDiv.style.display = "none"; },
-  stylesHaveLoaded: function(){
-    if (this.stylesCheckDiv.offsetHeight != 5) {
-       return false;
-    } else {
-      return true;
-    }
   },
   /* AudioJS Box - Holds all elements
   ================ */
