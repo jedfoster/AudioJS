@@ -714,7 +714,7 @@ AudioJS.player.extend({
       this.triggerResizeListeners();
       return this;
     }
-    return this.audio.offsetWidth || 400;
+    return this.audio.offsetWidth || this.audio.style.width || 400;
   },
   height: function(height){
     if (height !== undefined) {
