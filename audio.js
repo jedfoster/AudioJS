@@ -322,7 +322,7 @@ AudioJS.player.extend({
 
     // Update interface for device needs
     if (AudioJS.isIOS()) {
-      _V_.addClass(this.box, "ajs-iphone");
+      _V_.addClass(this.box, "ajs-ios");
       this.options.useBuiltInControls = true;
       this.iOSInterface();
     } else if (AudioJS.isAndroid()) {
