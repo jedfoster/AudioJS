@@ -88,7 +88,7 @@ var AudioJS = JRClass.extend({
     this.activateElement(this.box, "box");
   },
   /* Behaviors
-  ================================================================================ */
+  ================ */
   behaviors: {},
   newBehavior: function(name, activate, functions){
     this.behaviors[name] = activate;
@@ -100,7 +100,7 @@ var AudioJS = JRClass.extend({
     this.behaviors[behavior].call(this, element);
   },
   /* Errors/Warnings
-  ================================================================================ */
+  ================ */
   errors: [], // Array to track errors
   warnings: [],
   warning: function(warning){
@@ -108,7 +108,7 @@ var AudioJS = JRClass.extend({
     this.log(warning);
   },
   /* History of errors/events (not quite there yet)
-  ================================================================================ */
+  ================ */
   history: [],
   log: function(event){
     if (!event) { return; }
@@ -118,7 +118,7 @@ var AudioJS = JRClass.extend({
     try { console.log(event.type); } catch(e) { try { opera.postError(event.type); } catch(e){} }
   },
   /* Local Storage
-  ================================================================================ */
+  ================ */
   setLocalStorage: function(key, value){
     if (!localStorage) { return; }
     try {
@@ -130,7 +130,7 @@ var AudioJS = JRClass.extend({
     }
   },
   /* Helpers
-  ================================================================================ */
+  ================ */
   getPreloadAttribute: function(){
     if (typeof this.audio.hasAttribute == "function" && this.audio.hasAttribute("preload")) {
       var preload = this.audio.getAttribute("preload");
@@ -170,7 +170,7 @@ AudioJS.player = AudioJS.prototype;
 ////////////////////////////////////////////////////////////////////////////////
 
 /* Download Links Fallback (Player Type)
-================================================================================ */
+================ */
 AudioJS.player.extend({
   linksSupported: function(){ return true; },
   linksInit: function(){
@@ -301,7 +301,7 @@ if(AudioJS.isIE()) { document.createElement("audio"); }
 window.AudioJS = window._V_ = AudioJS;
 
 /* HTML5 Player Type
-================================================================================ */
+================ */
 AudioJS.player.extend({
   html5Supported: function(){
     if (AudioJS.browserSupportsAudio()) {
@@ -345,8 +345,8 @@ AudioJS.player.extend({
       this.getSubtitles();
     }
   },
-  /* Source Managemet
-  ================================================================================ */
+  /* Source Management
+  ================ */
   canPlaySource: function(){
     // Cache Result
     if (this.canPlaySourceResult) { return this.canPlaySourceResult; }
@@ -388,7 +388,7 @@ AudioJS.player.extend({
     this.audio.load();
   },
   /* Device Fixes
-  ================================================================================ */
+  ================ */
   // Support older browsers that used "autobuffer"
   fixPreloading: function(){
     if (typeof this.audio.hasAttribute == "function" && this.audio.hasAttribute("preload") && this.audio.preload != "none") {
@@ -429,7 +429,7 @@ AudioJS.player.extend({
     this.positionBox();
   },
   /* Wait for styles (TODO: move to _V_)
-  ================================================================================ */
+  ================ */
   loadInterface: function(){
     if(!this.stylesHaveLoaded()) {
       // Don't want to create an endless loop either.
@@ -444,7 +444,7 @@ AudioJS.player.extend({
     this.positionAll();
   },
   /* Control Bar
-  ================================================================================ */
+  ================ */
   buildAndActivateControlBar: function(){
     /* Creating this HTML
       <div class="ajs-controls">
@@ -517,7 +517,7 @@ AudioJS.player.extend({
     this.timeControl.appendChild(this.durationDisplay);
     this.activateElement(this.durationDisplay, "durationDisplay");
 
-    // Create the volumne control
+    // Create the volume control
     this.volumeControl = _V_.createElement("div", {
       className: "ajs-volume-control",
       innerHTML: "<div><span></span><span></span><span></span><span></span><span></span><span></span></div>"
@@ -529,7 +529,7 @@ AudioJS.player.extend({
     this.activateElement(this.volumeDisplay, "volumeDisplay");
   },
   /* Spinner (Loading)
-  ================================================================================ */
+  ================ */
   buildAndActivateSpinner: function(){
     this.spinner = _V_.createElement("div", {
       className: "ajs-spinner",
@@ -539,7 +539,7 @@ AudioJS.player.extend({
     this.activateElement(this.spinner, "spinner");
   },
   /* Styles Check - Check if styles are loaded (move ot _V_)
-  ================================================================================ */
+  ================ */
   // Sometimes the CSS styles haven't been applied to the controls yet
   // when we're trying to calculate the height and position them correctly.
   // This causes a flicker where the controls are out of place.
@@ -557,7 +557,7 @@ AudioJS.player.extend({
     }
   },
   /* AudioJS Box - Holds all elements
-  ================================================================================ */
+  ================ */
   positionAll: function(){
     this.positionBox();
     this.positionControlBars();
@@ -571,7 +571,7 @@ AudioJS.player.extend({
     }
   },
   /* Subtitles
-  ================================================================================ */
+  ================ */
   getSubtitles: function(){
     var tracks = this.audio.getElementsByTagName("TRACK");
     for (var i=0,j=tracks.length; i<j; i++) {
@@ -648,7 +648,7 @@ AudioJS.player.extend({
   },
 
   /* Player API - Translate functionality from player to audio
-  ================================================================================ */
+  ================ */
   addAudioListener: function(type, fn){ _V_.addListener(this.audio, type, fn.rEvtContext(this)); },
 
   play: function(){
@@ -738,7 +738,7 @@ AudioJS.player.extend({
 ////////////////////////////////////////////////////////////////////////////////
 
 /* Player Behaviors - How AudioJS reacts to what the audio is doing.
-================================================================================ */
+================ */
 AudioJS.player.newBehavior("player", function(player){
     this.onError(this.playerOnAudioError);
     // Listen for when the audio is played
@@ -820,7 +820,7 @@ AudioJS.player.newBehavior("player", function(player){
   }
 );
 /* Mouse Over Audio Reporter Behaviors - i.e. Controls hiding based on mouse location
-================================================================================ */
+================ */
 AudioJS.player.newBehavior("mouseOverAudioReporter", function(element){
     // Listen for the mouse move the audio. Used to reveal the controller.
     _V_.addListener(element, "mousemove", this.mouseOverAudioReporterOnMouseMove.context(this));
@@ -845,7 +845,7 @@ AudioJS.player.newBehavior("mouseOverAudioReporter", function(element){
   }
 );
 /* Mouse Over Audio Reporter Behaviors - i.e. Controls hiding based on mouse location
-================================================================================ */
+================ */
 AudioJS.player.newBehavior("box", function(element){
     this.positionBox();
     _V_.addClass(element, "ajs-paused");
@@ -865,7 +865,7 @@ AudioJS.player.newBehavior("box", function(element){
 );
 
 /* Control Bar Behaviors
-================================================================================ */
+================ */
 AudioJS.player.newBehavior("controlBar", function(element){
     if (!this.controlBars) {
       this.controlBars = [];
@@ -901,7 +901,7 @@ AudioJS.player.newBehavior("controlBar", function(element){
   }
 );
 /* PlayToggle, PlayButton, PauseButton Behaviors
-================================================================================ */
+================ */
 // Play Toggle
 AudioJS.player.newBehavior("playToggle", function(element){
     if (!this.elements.playToggles) {
@@ -948,7 +948,7 @@ AudioJS.player.newBehavior("pauseButton", function(element){
   }
 );
 /* Play Progress Bar Behaviors
-================================================================================ */
+================ */
 AudioJS.player.newBehavior("playProgressBar", function(element){
     if (!this.playProgressBars) {
       this.playProgressBars = [];
@@ -967,7 +967,7 @@ AudioJS.player.newBehavior("playProgressBar", function(element){
   }
 );
 /* Load Progress Bar Behaviors
-================================================================================ */
+================ */
 AudioJS.player.newBehavior("loadProgressBar", function(element){
     if (!this.loadProgressBars) { this.loadProgressBars = []; }
     this.loadProgressBars.push(element);
@@ -982,7 +982,7 @@ AudioJS.player.newBehavior("loadProgressBar", function(element){
 );
 
 /* Current Time Display Behaviors
-================================================================================ */
+================ */
 AudioJS.player.newBehavior("currentTimeDisplay", function(element){
     if (!this.currentTimeDisplays) {
       this.currentTimeDisplays = [];
@@ -1003,7 +1003,7 @@ AudioJS.player.newBehavior("currentTimeDisplay", function(element){
 );
 
 /* Duration Display Behaviors
-================================================================================ */
+================ */
 AudioJS.player.newBehavior("durationDisplay", function(element){
     if (!this.durationDisplays) {
       this.durationDisplays = [];
@@ -1021,7 +1021,7 @@ AudioJS.player.newBehavior("durationDisplay", function(element){
 );
 
 /* Current Time Scrubber Behaviors
-================================================================================ */
+================ */
 AudioJS.player.newBehavior("currentTimeScrubber", function(element){
     _V_.addListener(element, "mousedown", this.onCurrentTimeScrubberMouseDown.rEvtContext(this));
   },{
@@ -1063,7 +1063,7 @@ AudioJS.player.newBehavior("currentTimeScrubber", function(element){
   }
 );
 /* Volume Display Behaviors
-================================================================================ */
+================ */
 AudioJS.player.newBehavior("volumeDisplay", function(element){
     if (!this.volumeDisplays) {
       this.volumeDisplays = [];
@@ -1093,7 +1093,7 @@ AudioJS.player.newBehavior("volumeDisplay", function(element){
   }
 );
 /* Volume Scrubber Behaviors
-================================================================================ */
+================ */
 AudioJS.player.newBehavior("volumeScrubber", function(element){
     _V_.addListener(element, "mousedown", this.onVolumeScrubberMouseDown.rEvtContext(this));
   },{
@@ -1122,7 +1122,7 @@ AudioJS.player.newBehavior("volumeScrubber", function(element){
   }
 );
 /* Spinner
-================================================================================ */
+================ */
 AudioJS.player.newBehavior("spinner", function(element){
     if (!this.spinners) {
       this.spinners = [];
@@ -1184,7 +1184,7 @@ AudioJS.player.newBehavior("spinner", function(element){
   }
 );
 /* Subtitles
-================================================================================ */
+================ */
 AudioJS.player.newBehavior("subtitlesDisplay", function(element){
     if (!this.subtitleDisplays) {
       this.subtitleDisplays = [];
