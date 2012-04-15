@@ -1253,23 +1253,6 @@ Function.prototype.rEvtContext = function(obj, funcParent){
   }
   return this.evtContext(obj);
 };
-
-// jQuery Plugin
-if (window.jQuery) {
-  (function($) {
-    $.fn.AudioJS = function(options) {
-      this.each(function() {
-        AudioJS.setup(this, options);
-      });
-      return this;
-    };
-    $.fn.player = function() {
-      return this[0].player;
-    };
-  })(jQuery);
-}
-
-
 // Expose to global
 window.AudioJS = window._V_ = AudioJS;
 
