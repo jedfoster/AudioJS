@@ -57,6 +57,7 @@ var AudioJS = JRClass.extend({
       controlsAtStart: true, // Make controls visible when page loads
       controlsHiding: false, // Hide controls when not over the audio
       defaultVolume: 0.85, // Will be overridden by localStorage volume if available
+      volumeBars: 6,
       playerFallbackOrder: ["html5", "links"] // Players and order to use them
     };
     // Override default options with global options
@@ -508,9 +509,14 @@ AudioJS.player.extend({
     this.activateElement(this.durationDisplay, "durationDisplay");
 
     // Create the volume control
+    var bars = [];
+    while(bars.length < this.options.volumeBars){
+      bars.push('<span></span>');
+    }
+
     this.volumeControl = _V_.createElement("div", {
       className: "ajs-volume-control",
-      innerHTML: "<div><span></span><span></span><span></span><span></span><span></span><span></span></div>"
+      innerHTML: "<div>" + bars.join('') + "</div>"
     });
     this.controls.appendChild(this.volumeControl);
     this.activateElement(this.volumeControl, "volumeScrubber");
@@ -1060,7 +1066,7 @@ AudioJS.player.newBehavior("volumeDisplay", function(element){
       });
     },
     updateVolumeDisplay: function(display){
-      var volNum = Math.ceil(this.volume() * 6);
+      var volNum = Math.ceil(this.volume() * this.options.volumeBars);
       this.each(display.children, function(child, num){
         if (num < volNum) {
           _V_.addClass(child, "ajs-volume-level-on");
