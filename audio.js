@@ -343,7 +343,6 @@ AudioJS.player.extend({
       this.buildAndActivateSpinner();
       this.buildAndActivateControlBar();
       this.loadInterface(); // Show everything once styles are loaded
-      this.getSubtitles();
     }
   },
   /* Source Management
@@ -557,82 +556,6 @@ AudioJS.player.extend({
       this.element.style.height = "";
       // this.box.style.height = this.audio.offsetHeight + this.controls.offsetHeight + "px";
     }
-  },
-  /* Subtitles
-  ================ */
-  getSubtitles: function(){
-    var tracks = this.audio.getElementsByTagName("TRACK");
-    for (var i=0,j=tracks.length; i<j; i++) {
-      if (tracks[i].getAttribute("kind") == "subtitles" && tracks[i].getAttribute("src")) {
-        this.subtitlesSource = tracks[i].getAttribute("src");
-        this.loadSubtitles();
-        this.buildSubtitles();
-      }
-    }
-  },
-  loadSubtitles: function() { _V_.get(this.subtitlesSource, this.parseSubtitles.context(this)); },
-  parseSubtitles: function(subText) {
-    var lines = subText.split("\n"),
-        line = "",
-        subtitle, time, text;
-    this.subtitles = [];
-    this.currentSubtitle = false;
-    this.lastSubtitleIndex = 0;
-
-    for (var i=0; i<lines.length; i++) {
-      line = _V_.trim(lines[i]); // Trim whitespace and linebreaks
-      if (line) { // Loop until a line with content
-
-        // First line - Number
-        subtitle = {
-          id: line, // Subtitle Number
-          index: this.subtitles.length // Position in Array
-        };
-
-        // Second line - Time
-        line = _V_.trim(lines[++i]);
-        time = line.split(" --> ");
-        subtitle.start = this.parseSubtitleTime(time[0]);
-        subtitle.end = this.parseSubtitleTime(time[1]);
-
-        // Additional lines - Subtitle Text
-        text = [];
-        for (var j=i; j<lines.length; j++) { // Loop until a blank line or end of lines
-          line = _V_.trim(lines[++i]);
-          if (!line) { break; }
-          text.push(line);
-        }
-        subtitle.text = text.join('<br/>');
-
-        // Add this subtitle
-        this.subtitles.push(subtitle);
-      }
-    }
-  },
-
-  parseSubtitleTime: function(timeText) {
-    var parts = timeText.split(':'),
-        time = 0;
-    // hours => seconds
-    time += parseFloat(parts[0])*60*60;
-    // minutes => seconds
-    time += parseFloat(parts[1])*60;
-    // get seconds
-    var seconds = parts[2].split(/\.|,/); // Either . or ,
-    time += parseFloat(seconds[0]);
-    // add miliseconds
-    ms = parseFloat(seconds[1]);
-    if (ms) { time += ms/1000; }
-    return time;
-  },
-
-  buildSubtitles: function(){
-    /* Creating this HTML
-      <div class="ajs-subtitles"></div>
-    */
-    this.subtitlesDisplay = _V_.createElement("div", { className: 'ajs-subtitles' });
-    this.box.appendChild(this.subtitlesDisplay);
-    this.activateElement(this.subtitlesDisplay, "subtitlesDisplay");
   },
 
   /* Player API - Translate functionality from player to audio
@@ -1168,68 +1091,6 @@ AudioJS.player.newBehavior("spinner", function(element){
     spinnersOnAudioTimeUpdate: function(event){
       // Safari sometimes calls waiting and doesn't recover
       if(this.spinner.style.display == "block") { this.hideSpinners(); }
-    }
-  }
-);
-/* Subtitles
-================ */
-AudioJS.player.newBehavior("subtitlesDisplay", function(element){
-    if (!this.subtitleDisplays) {
-      this.subtitleDisplays = [];
-      this.onCurrentTimeUpdate(this.subtitleDisplaysOnAudioTimeUpdate);
-      this.onEnded(function() { this.lastSubtitleIndex = 0; }.context(this));
-    }
-    this.subtitleDisplays.push(element);
-  },{
-    subtitleDisplaysOnAudioTimeUpdate: function(time){
-      // Assuming all subtitles are in order by time, and do not overlap
-      if (this.subtitles) {
-        // If current subtitle should stay showing, don't do anything. Otherwise, find new subtitle.
-        if (!this.currentSubtitle || this.currentSubtitle.start >= time || this.currentSubtitle.end < time) {
-          var newSubIndex = false,
-              // Loop in reverse if lastSubtitle is after current time (optimization)
-              // Meaning the user is scrubbing in reverse or rewinding
-              reverse = (this.subtitles[this.lastSubtitleIndex].start > time),
-              // If reverse, step back 1 becase we know it's not the lastSubtitle
-              i = this.lastSubtitleIndex - (reverse) ? 1 : 0;
-          while (true) { // Loop until broken
-            if (reverse) { // Looping in reverse
-              // Stop if no more, or this subtitle ends before the current time (no earlier subtitles should apply)
-              if (i < 0 || this.subtitles[i].end < time) { break; }
-              // End is greater than time, so if start is less, show this subtitle
-              if (this.subtitles[i].start < time) {
-                newSubIndex = i;
-                break;
-              }
-              i--;
-            } else { // Looping forward
-              // Stop if no more, or this subtitle starts after time (no later subtitles should apply)
-              if (i >= this.subtitles.length || this.subtitles[i].start > time) { break; }
-              // Start is less than time, so if end is later, show this subtitle
-              if (this.subtitles[i].end > time) {
-                newSubIndex = i;
-                break;
-              }
-              i++;
-            }
-          }
-
-          // Set or clear current subtitle
-          if (newSubIndex !== false) {
-            this.currentSubtitle = this.subtitles[newSubIndex];
-            this.lastSubtitleIndex = newSubIndex;
-            this.updateSubtitleDisplays(this.currentSubtitle.text);
-          } else if (this.currentSubtitle) {
-            this.currentSubtitle = false;
-            this.updateSubtitleDisplays("");
-          }
-        }
-      }
-    },
-    updateSubtitleDisplays: function(val){
-      this.each(this.subtitleDisplays, function(disp){
-        disp.innerHTML = val;
-      });
     }
   }
 );
