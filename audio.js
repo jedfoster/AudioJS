@@ -542,6 +542,12 @@ AudioJS.player.extend({
   addAudioListener: function(type, fn){ _V_.addListener(this.audio, type, fn.rEvtContext(this)); },
 
   play: function(){
+    // Pause all other players
+    this.each(_V_.getAudioJSTags(), function(players){
+      players.pause();
+    });
+
+    // Play
     this.audio.play();
     return this;
   },
