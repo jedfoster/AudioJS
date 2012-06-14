@@ -60,9 +60,9 @@ var AudioJS = JRClass.extend({
       playerFallbackOrder: ["html5", "links"] // Players and order to use them
     };
     // Override default options with global options
-    if (typeof AudioJS.options == "object") { _V_.merge(this.options, AudioJS.options); }
+    if (typeof AudioJS.options == "object") { this.merge(this.options, AudioJS.options); }
     // Override default & global options with options specific to this player
-    if (typeof setOptions == "object") { _V_.merge(this.options, setOptions); }
+    if (typeof setOptions == "object") { this.merge(this.options, setOptions); }
     // Override preload & autoplay with audio attributes
     if (this.getPreloadAttribute() !== undefined) { this.options.preload = this.getPreloadAttribute(); }
     if (this.getAutoplayAttribute() !== undefined) { this.options.autoplay = this.getAutoplayAttribute(); }
@@ -298,7 +298,7 @@ AudioJS.extend({
 if(AudioJS.isIE()) { document.createElement("audio"); }
 
 // Expose to global
-window.AudioJS = window._V_ = AudioJS;
+window.AudioJS = window._A_ = AudioJS;
 
 /* HTML5 Player Type
 ================ */
@@ -321,7 +321,7 @@ AudioJS.player.extend({
 
     // Update interface for device needs
     if (AudioJS.isIOS()) {
-      _V_.addClass(this.box, "ajs-ios");
+      _A_.addClass(this.box, "ajs-ios");
       this.options.useBuiltInControls = true;
       this.iOSInterface();
     } else if (AudioJS.isAndroid()) {
@@ -399,7 +399,7 @@ AudioJS.player.extend({
   // Listen for audio Load Progress (currently does not if html file is local)
   // Buffered does't work in all browsers, so watching progress as well
   supportProgressEvents: function(e){
-    _V_.addListener(this.audio, 'progress', this.playerOnAudioProgress.context(this));
+    _A_.addListener(this.audio, 'progress', this.playerOnAudioProgress.context(this));
   },
   playerOnAudioProgress: function(event){
     this.setBufferedFromProgress(event);
@@ -422,9 +422,9 @@ AudioJS.player.extend({
   // Use built-in controls, but add the big play button, since android doesn't have one.
   androidInterface: function(){
     this.forceTheSource(); // Fix loading issues
-    _V_.addListener(this.audio, "click", function(){ this.play(); }); // Required to play
+    _A_.addListener(this.audio, "click", function(){ this.play(); }); // Required to play
   },
-  /* Wait for styles (TODO: move to _V_)
+  /* Wait for styles (TODO: move to _A_)
   ================ */
   loadInterface: function(){
     if (this.options.controlsAtStart) { this.showControlBars(); }
@@ -458,51 +458,51 @@ AudioJS.player.extend({
     */
   buildAndActivateControlBar: function(){
     // Create a div to hold the different controls
-    this.controls = _V_.createElement("div", { className: "ajs-controls" });
+    this.controls = _A_.createElement("div", { className: "ajs-controls" });
     // Add the controls to the audio's container
     this.box.appendChild(this.controls);
     this.activateElement(this.controls, "controlBar");
     this.activateElement(this.controls, "mouseOverAudioReporter");
 
     // Build the play control
-    this.playControl = _V_.createElement("div", { className: "ajs-play-control", innerHTML: "<span></span>" });
+    this.playControl = _A_.createElement("div", { className: "ajs-play-control", innerHTML: "<span></span>" });
     this.controls.appendChild(this.playControl);
     this.activateElement(this.playControl, "playToggle");
 
     // Build the progress control
-    this.progressControl = _V_.createElement("div", { className: "ajs-progress-control" });
+    this.progressControl = _A_.createElement("div", { className: "ajs-progress-control" });
     this.controls.appendChild(this.progressControl);
 
     // Create a holder for the progress bars
-    this.progressHolder = _V_.createElement("div", { className: "ajs-progress-holder" });
+    this.progressHolder = _A_.createElement("div", { className: "ajs-progress-holder" });
     this.progressControl.appendChild(this.progressHolder);
     this.activateElement(this.progressHolder, "currentTimeScrubber");
 
     // Create the loading progress display
-    this.loadProgressBar = _V_.createElement("div", { className: "ajs-load-progress" });
+    this.loadProgressBar = _A_.createElement("div", { className: "ajs-load-progress" });
     this.progressHolder.appendChild(this.loadProgressBar);
     this.activateElement(this.loadProgressBar, "loadProgressBar");
 
     // Create the playing progress display
-    this.playProgressBar = _V_.createElement("div", { className: "ajs-play-progress" });
+    this.playProgressBar = _A_.createElement("div", { className: "ajs-play-progress" });
     this.progressHolder.appendChild(this.playProgressBar);
     this.activateElement(this.playProgressBar, "playProgressBar");
 
     // Create the progress time display (00:00 / 00:00)
-    this.timeControl = _V_.createElement("div", { className: "ajs-time-control" });
+    this.timeControl = _A_.createElement("div", { className: "ajs-time-control" });
     this.controls.appendChild(this.timeControl);
 
     // Create the current play time display
-    this.currentTimeDisplay = _V_.createElement("span", { className: "ajs-current-time-display", innerHTML: "00:00" });
+    this.currentTimeDisplay = _A_.createElement("span", { className: "ajs-current-time-display", innerHTML: "00:00" });
     this.timeControl.appendChild(this.currentTimeDisplay);
     this.activateElement(this.currentTimeDisplay, "currentTimeDisplay");
 
     // Add time separator
-    this.timeSeparator = _V_.createElement("span", { innerHTML: " / " });
+    this.timeSeparator = _A_.createElement("span", { innerHTML: " / " });
     this.timeControl.appendChild(this.timeSeparator);
 
     // Create the total duration display
-    this.durationDisplay = _V_.createElement("span", { className: "ajs-duration-display", innerHTML: "00:00" });
+    this.durationDisplay = _A_.createElement("span", { className: "ajs-duration-display", innerHTML: "00:00" });
     this.timeControl.appendChild(this.durationDisplay);
     this.activateElement(this.durationDisplay, "durationDisplay");
 
@@ -512,7 +512,7 @@ AudioJS.player.extend({
       bars.push('<span></span>');
     }
 
-    this.volumeControl = _V_.createElement("div", {
+    this.volumeControl = _A_.createElement("div", {
       className: "ajs-volume-control",
       innerHTML: "<div>" + bars.join('') + "</div>"
     });
@@ -520,7 +520,7 @@ AudioJS.player.extend({
     this.activateElement(this.volumeControl, "volumeScrubber");
 
     // Create the description display
-    this.descriptionMeta = _V_.createElement("div", {
+    this.descriptionMeta = _A_.createElement("div", {
       className: "description",
       innerHTML: this.audio.getAttribute('data-description')
     });
@@ -532,18 +532,18 @@ AudioJS.player.extend({
   /* Spinner (Loading)
   ================ */
   buildAndActivateSpinner: function(){
-    this.spinner = _V_.createElement("div", {className: "ajs-spinner"});
+    this.spinner = _A_.createElement("div", {className: "ajs-spinner"});
     this.box.appendChild(this.spinner);
     this.activateElement(this.spinner, "spinner");
   },
 
   /* Player API - Translate functionality from player to audio
   ================ */
-  addAudioListener: function(type, fn){ _V_.addListener(this.audio, type, fn.rEvtContext(this)); },
+  addAudioListener: function(type, fn){ _A_.addListener(this.audio, type, fn.rEvtContext(this)); },
 
   play: function(){
     // Pause all other players
-    this.each(_V_.getAudioJSTags(), function(players){
+    this.each(_A_.getAudioJSTags(), function(players){
       players.pause();
     });
 
@@ -601,7 +601,7 @@ AudioJS.player.extend({
     if (this.values.volume) { return this.values.volume; }
     return this.audio.volume;
   },
-  onVolumeChange: function(fn){ _V_.addListener(this.audio, 'volumechange', fn.rEvtContext(this)); },
+  onVolumeChange: function(fn){ _A_.addListener(this.audio, 'volumechange', fn.rEvtContext(this)); },
 
   width: function(width){
     if (width !== undefined) {
@@ -719,9 +719,9 @@ AudioJS.player.newBehavior("player", function(player){
 ================ */
 AudioJS.player.newBehavior("mouseOverAudioReporter", function(element){
     // Listen for the mouse move the audio. Used to reveal the controller.
-    _V_.addListener(element, "mousemove", this.mouseOverAudioReporterOnMouseMove.context(this));
+    _A_.addListener(element, "mousemove", this.mouseOverAudioReporterOnMouseMove.context(this));
     // Listen for the mouse moving out of the audio. Used to hide the controller.
-    _V_.addListener(element, "mouseout", this.mouseOverAudioReporterOnMouseOut.context(this));
+    _A_.addListener(element, "mouseout", this.mouseOverAudioReporterOnMouseOut.context(this));
   },{
     mouseOverAudioReporterOnMouseMove: function(){
       this.showControlBars();
@@ -743,18 +743,18 @@ AudioJS.player.newBehavior("mouseOverAudioReporter", function(element){
 /* Mouse Over Audio Reporter Behaviors - i.e. Controls hiding based on mouse location
 ================ */
 AudioJS.player.newBehavior("box", function(element){
-    _V_.addClass(element, "ajs-paused");
+    _A_.addClass(element, "ajs-paused");
     this.activateElement(element, "mouseOverAudioReporter");
     this.onPlay(this.boxOnAudioPlay);
     this.onPause(this.boxOnAudioPause);
   },{
     boxOnAudioPlay: function(){
-      _V_.removeClass(this.box, "ajs-paused");
-      _V_.addClass(this.box, "ajs-playing");
+      _A_.removeClass(this.box, "ajs-paused");
+      _A_.addClass(this.box, "ajs-playing");
     },
     boxOnAudioPause: function(){
-      _V_.removeClass(this.box, "ajs-playing");
-      _V_.addClass(this.box, "ajs-paused");
+      _A_.removeClass(this.box, "ajs-playing");
+      _A_.addClass(this.box, "ajs-paused");
     }
   }
 );
@@ -767,8 +767,8 @@ AudioJS.player.newBehavior("controlBar", function(element){
       this.onResize(this.positionControlBars);
     }
     this.controlBars.push(element);
-    _V_.addListener(element, "mousemove", this.onControlBarsMouseMove.context(this));
-    _V_.addListener(element, "mouseout", this.onControlBarsMouseOut.context(this));
+    _A_.addListener(element, "mousemove", this.onControlBarsMouseMove.context(this));
+    _A_.addListener(element, "mouseout", this.onControlBarsMouseOut.context(this));
   },{
     showControlBars: function(){
       if (!this.options.controlsAtStart && !this.hasPlayed) { return; }
@@ -805,7 +805,7 @@ AudioJS.player.newBehavior("playToggle", function(element){
       this.onPause(this.playTogglesOnPause);
     }
     this.elements.playToggles.push(element);
-    _V_.addListener(element, "click", this.onPlayToggleClick.context(this));
+    _A_.addListener(element, "click", this.onPlayToggleClick.context(this));
   },{
     onPlayToggleClick: function(event){
       if (this.paused()) {
@@ -816,28 +816,28 @@ AudioJS.player.newBehavior("playToggle", function(element){
     },
     playTogglesOnPlay: function(event){
       this.each(this.elements.playToggles, function(toggle){
-        _V_.removeClass(toggle, "ajs-paused");
-        _V_.addClass(toggle, "ajs-playing");
+        _A_.removeClass(toggle, "ajs-paused");
+        _A_.addClass(toggle, "ajs-playing");
       });
     },
     playTogglesOnPause: function(event){
       this.each(this.elements.playToggles, function(toggle){
-        _V_.removeClass(toggle, "ajs-playing");
-        _V_.addClass(toggle, "ajs-paused");
+        _A_.removeClass(toggle, "ajs-playing");
+        _A_.addClass(toggle, "ajs-paused");
       });
     }
   }
 );
 // Play
 AudioJS.player.newBehavior("playButton", function(element){
-    _V_.addListener(element, "click", this.onPlayButtonClick.context(this));
+    _A_.addListener(element, "click", this.onPlayButtonClick.context(this));
   },{
     onPlayButtonClick: function(event){ this.play(); }
   }
 );
 // Pause
 AudioJS.player.newBehavior("pauseButton", function(element){
-    _V_.addListener(element, "click", this.onPauseButtonClick.context(this));
+    _A_.addListener(element, "click", this.onPauseButtonClick.context(this));
   },{
     onPauseButtonClick: function(event){ this.pause(); }
   }
@@ -856,7 +856,7 @@ AudioJS.player.newBehavior("playProgressBar", function(element){
       var progress = (newTime !== undefined) ? newTime / this.duration() : this.currentTime() / this.duration();
       if (isNaN(progress)) { progress = 0; }
       this.each(this.playProgressBars, function(bar){
-        if (bar.style) { bar.style.width = _V_.round(progress * 100, 2) + "%"; }
+        if (bar.style) { bar.style.width = _A_.round(progress * 100, 2) + "%"; }
       });
     }
   }
@@ -870,7 +870,7 @@ AudioJS.player.newBehavior("loadProgressBar", function(element){
   },{
     updateLoadProgressBars: function(){
       this.each(this.loadProgressBars, function(bar){
-        if (bar.style) { bar.style.width = _V_.round(this.bufferedPercent() * 100, 2) + "%"; }
+        if (bar.style) { bar.style.width = _A_.round(this.bufferedPercent() * 100, 2) + "%"; }
       });
     }
   }
@@ -891,7 +891,7 @@ AudioJS.player.newBehavior("currentTimeDisplay", function(element){
       // Allows for smooth scrubbing, when player can't keep up.
       var time = (newTime) ? newTime : this.currentTime();
       this.each(this.currentTimeDisplays, function(dis){
-        dis.innerHTML = _V_.formatTime(time);
+        dis.innerHTML = _A_.formatTime(time);
       });
     }
   }
@@ -909,7 +909,7 @@ AudioJS.player.newBehavior("durationDisplay", function(element){
     updateDurationDisplays: function(){
       if (!this.durationDisplays) { return; }
       this.each(this.durationDisplays, function(dis){
-        if (this.duration()) { dis.innerHTML = _V_.formatTime(this.duration()); }
+        if (this.duration()) { dis.innerHTML = _A_.formatTime(this.duration()); }
       });
     }
   }
@@ -918,7 +918,7 @@ AudioJS.player.newBehavior("durationDisplay", function(element){
 /* Current Time Scrubber Behaviors
 ================ */
 AudioJS.player.newBehavior("currentTimeScrubber", function(element){
-    _V_.addListener(element, "mousedown", this.onCurrentTimeScrubberMouseDown.rEvtContext(this));
+    _A_.addListener(element, "mousedown", this.onCurrentTimeScrubberMouseDown.rEvtContext(this));
   },{
     // Adjust the play position when the user drags on the progress bar
     onCurrentTimeScrubberMouseDown: function(event, scrubber){
@@ -930,16 +930,16 @@ AudioJS.player.newBehavior("currentTimeScrubber", function(element){
       this.audioWasPlaying = !this.paused();
       this.pause();
 
-      _V_.blockTextSelection();
+      _A_.blockTextSelection();
       this.setCurrentTimeWithScrubber(event);
-      _V_.addListener(document, "mousemove", this.onCurrentTimeScrubberMouseMove.rEvtContext(this));
-      _V_.addListener(document, "mouseup", this.onCurrentTimeScrubberMouseUp.rEvtContext(this));
+      _A_.addListener(document, "mousemove", this.onCurrentTimeScrubberMouseMove.rEvtContext(this));
+      _A_.addListener(document, "mouseup", this.onCurrentTimeScrubberMouseUp.rEvtContext(this));
     },
     onCurrentTimeScrubberMouseMove: function(event){ // Removeable
       this.setCurrentTimeWithScrubber(event);
     },
     onCurrentTimeScrubberMouseUp: function(event){ // Removeable
-      _V_.unblockTextSelection();
+      _A_.unblockTextSelection();
       document.removeEventListener("mousemove", this.onCurrentTimeScrubberMouseMove, false);
       document.removeEventListener("mouseup", this.onCurrentTimeScrubberMouseUp, false);
       if (this.audioWasPlaying) {
@@ -948,7 +948,7 @@ AudioJS.player.newBehavior("currentTimeScrubber", function(element){
       }
     },
     setCurrentTimeWithScrubber: function(event){
-      var newProgress = _V_.getRelativePosition(event.pageX, this.currentScrubber);
+      var newProgress = _A_.getRelativePosition(event.pageX, this.currentScrubber);
       var newTime = newProgress * this.duration();
       this.triggerCurrentTimeListeners(0, newTime); // Allows for smooth scrubbing
       // Don't let audio end while scrubbing.
@@ -979,9 +979,9 @@ AudioJS.player.newBehavior("volumeDisplay", function(element){
       var volNum = Math.ceil(this.volume() * this.options.volumeBars);
       this.each(display.children, function(child, num){
         if (num < volNum) {
-          _V_.addClass(child, "ajs-volume-level-on");
+          _A_.addClass(child, "ajs-volume-level-on");
         } else {
-          _V_.removeClass(child, "ajs-volume-level-on");
+          _A_.removeClass(child, "ajs-volume-level-on");
         }
       });
     }
@@ -990,28 +990,28 @@ AudioJS.player.newBehavior("volumeDisplay", function(element){
 /* Volume Scrubber Behaviors
 ================ */
 AudioJS.player.newBehavior("volumeScrubber", function(element){
-    _V_.addListener(element, "mousedown", this.onVolumeScrubberMouseDown.rEvtContext(this));
+    _A_.addListener(element, "mousedown", this.onVolumeScrubberMouseDown.rEvtContext(this));
   },{
     // Adjust the volume when the user drags on the volume control
     onVolumeScrubberMouseDown: function(event, scrubber){
       // event.preventDefault();
-      _V_.blockTextSelection();
+      _A_.blockTextSelection();
       this.currentScrubber = scrubber;
       this.setVolumeWithScrubber(event);
-      _V_.addListener(document, "mousemove", this.onVolumeScrubberMouseMove.rEvtContext(this));
-      _V_.addListener(document, "mouseup", this.onVolumeScrubberMouseUp.rEvtContext(this));
+      _A_.addListener(document, "mousemove", this.onVolumeScrubberMouseMove.rEvtContext(this));
+      _A_.addListener(document, "mouseup", this.onVolumeScrubberMouseUp.rEvtContext(this));
     },
     onVolumeScrubberMouseMove: function(event){
       this.setVolumeWithScrubber(event);
     },
     onVolumeScrubberMouseUp: function(event){
       this.setVolumeWithScrubber(event);
-      _V_.unblockTextSelection();
+      _A_.unblockTextSelection();
       document.removeEventListener("mousemove", this.onVolumeScrubberMouseMove, false);
       document.removeEventListener("mouseup", this.onVolumeScrubberMouseUp, false);
     },
     setVolumeWithScrubber: function(event){
-      var newVol = _V_.getRelativePosition(event.pageX, this.currentScrubber);
+      var newVol = _A_.getRelativePosition(event.pageX, this.currentScrubber);
       this.volume(newVol);
     }
   }
@@ -1021,17 +1021,17 @@ AudioJS.player.newBehavior("volumeScrubber", function(element){
 AudioJS.player.newBehavior("spinner", function(element){
     if (!this.spinners) {
       this.spinners = [];
-      _V_.addListener(this.audio, "loadeddata", this.spinnersOnAudioLoadedData.context(this));
-      _V_.addListener(this.audio, "loadstart", this.spinnersOnAudioLoadStart.context(this));
-      _V_.addListener(this.audio, "seeking", this.spinnersOnAudioSeeking.context(this));
-      _V_.addListener(this.audio, "seeked", this.spinnersOnAudioSeeked.context(this));
-      _V_.addListener(this.audio, "canplay", this.spinnersOnAudioCanPlay.context(this));
-      _V_.addListener(this.audio, "canplaythrough", this.spinnersOnAudioCanPlayThrough.context(this));
-      _V_.addListener(this.audio, "waiting", this.spinnersOnAudioWaiting.context(this));
-      _V_.addListener(this.audio, "stalled", this.spinnersOnAudioStalled.context(this));
-      _V_.addListener(this.audio, "suspend", this.spinnersOnAudioSuspend.context(this));
-      _V_.addListener(this.audio, "playing", this.spinnersOnAudioPlaying.context(this));
-      _V_.addListener(this.audio, "timeupdate", this.spinnersOnAudioTimeUpdate.context(this));
+      _A_.addListener(this.audio, "loadeddata", this.spinnersOnAudioLoadedData.context(this));
+      _A_.addListener(this.audio, "loadstart", this.spinnersOnAudioLoadStart.context(this));
+      _A_.addListener(this.audio, "seeking", this.spinnersOnAudioSeeking.context(this));
+      _A_.addListener(this.audio, "seeked", this.spinnersOnAudioSeeked.context(this));
+      _A_.addListener(this.audio, "canplay", this.spinnersOnAudioCanPlay.context(this));
+      _A_.addListener(this.audio, "canplaythrough", this.spinnersOnAudioCanPlayThrough.context(this));
+      _A_.addListener(this.audio, "waiting", this.spinnersOnAudioWaiting.context(this));
+      _A_.addListener(this.audio, "stalled", this.spinnersOnAudioStalled.context(this));
+      _A_.addListener(this.audio, "suspend", this.spinnersOnAudioSuspend.context(this));
+      _A_.addListener(this.audio, "playing", this.spinnersOnAudioPlaying.context(this));
+      _A_.addListener(this.audio, "timeupdate", this.spinnersOnAudioTimeUpdate.context(this));
     }
     this.spinners.push(element);
   },{
@@ -1260,7 +1260,7 @@ Function.prototype.rEvtContext = function(obj, funcParent){
   return this.evtContext(obj);
 };
 // Expose to global
-window.AudioJS = window._V_ = AudioJS;
+window.AudioJS = window._A_ = AudioJS;
 
 // End self-executing function
 })(window);
