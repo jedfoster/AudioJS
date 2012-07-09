@@ -1,112 +1,193 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<!--[if IE 7]>    <html class="no-js ie7" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
-  <meta charset="utf-8" />
-  <title>HTML5 Audio Player</title>
+  <meta charset="utf-8">
 
-  <!-- Include the AudioJS Library -->
-  <script src="audio.js" type="text/javascript" charset="utf-8"></script>
+  <title>AudioJS - An HTML5 Audio Player</title>
+  
+  <link rel="author" href="humans.txt">
 
-  <script type="text/javascript" charset="utf-8">
-    // Must come after the audio.js library
+  <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    // Add AudioJS to all audio tags on the page when the DOM is ready
-    AudioJS.setupAllWhenReady();
+  <!-- Place favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon-precomposed" href="/apple-touch-icon-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/apple-touch-icon-72x72-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114x114-precomposed.png">
 
-    /* ============= OR ============ */
-
-    // Setup and store a reference to the player(s).
-    // Must happen after the DOM is loaded
-    // You can use any library's DOM Ready method instead of AudioJS.DOMReady
-
-    /*
-    AudioJS.DOMReady(function(){
-
-      // Using the video's ID or element
-      var myPlayer = AudioJS.setup("example_video_1");
-
-      // OR using an array of video elements/IDs
-      // Note: It returns an array of players
-      var myManyPlayers = AudioJS.setup(["example_video_1", "example_video_2", video3Element]);
-
-      // OR all videos on the page
-      var myManyPlayers = AudioJS.setup("All");
-
-      // After you have references to your players you can...(example)
-      myPlayer.play(); // Starts playing the video for this player.
-    });
-    */
-
-    /* ========= SETTING OPTIONS ========= */
-
-    // Set options when setting up the videos. The defaults are shown here.
-
-    /*
-    AudioJS.setupAllWhenReady({
-      controlsBelow: false, // Display control bar below video instead of in front of
-      controlsHiding: true, // Hide controls when mouse is not over the video
-      defaultVolume: 0.85, // Will be overridden by user's last volume if available
-      flashVersion: 9, // Required flash version for fallback
-      linksHiding: true // Hide download links when video is supported
-    });
-    */
-
-    // Or as the second option of AudioJS.setup
-
-    /*
-    AudioJS.DOMReady(function(){
-      var myPlayer = AudioJS.setup("example_video_1", {
-        // Same options
-      });
-    });
-    */
-
-  </script>
+  <!-- CSS: implied media="all" -->
+  <link rel="stylesheet" href="/css/styles.css">
+  
   <!-- Include the AudioJS Stylesheet -->
   <link rel="stylesheet" href="audio-js.css" type="text/css" media="screen" title="Audio JS" charset="utf-8">
   <link rel="stylesheet" href="skins/hu.css" type="text/css" media="screen" title="Audio JS" charset="utf-8">
   <link rel="stylesheet" href="skins/tube.css" type="text/css" media="screen" title="Audio JS" charset="utf-8">
   <link rel="stylesheet" href="skins/vim.css" type="text/css" media="screen" title="Audio JS" charset="utf-8">
 
+  <!-- All JavaScript at the bottom, except for Modernizr which enables HTML5 elements & feature detects -->
+  <script src="/js/modernizr.js"></script>
+
 </head>
-<body>
-	<p>Audio sample is <a href="http://palacecat.bandcamp.com/track/crookshanks">&#8220;Crookshanks&#8221; by Palace Cat</a>, via <a href="http://duplokat.tumblr.com/post/12695092003/geek-friday-ringtone">duplokat</a></p>
-	
 
-  <!-- Begin AudioJS -->
-  <div class="audio-js-box tube-css">
-    <!-- Using the Audio for Everybody Embed Code http://camendesign.com/code/audio_for_everybody -->
-    <audio class="audio-js" controls preload>
-      <source src="Palace Cat - Crookshanks.mp3">
-    </audio>
-  </div>
-  <!-- End AudioJS -->
+<body class="pg-audiojs">
 
-  <!-- Begin AudioJS -->
-  <div class="audio-js-box vim-css">
-    <!-- Using the Audio for Everybody Embed Code http://camendesign.com/code/audio_for_everybody -->
-    <audio class="audio-js" controls preload>
-      <source src="Palace Cat - Crookshanks.mp3">
-    </audio>
-  </div>
-  <!-- End AudioJS -->
+  <div class="container">
+    <header>
+			<h1><a href="http://jedfoster.com/">Jed Foster</a></h1>
+			
+			<h2><span>Code. </span><span>Design. </span><span>For the web.</span></h2>
+		</header>
 
-    <!-- Begin AudioJS -->
-  <div class="audio-js-box hu-css">
-    <!-- Using the Audio for Everybody Embed Code http://camendesign.com/code/audio_for_everybody -->
-    <audio class="audio-js" controls preload>
-      <source src="Palace Cat - Crookshanks.mp3">
-    </audio>
-  </div>
-  <!-- End AudioJS -->
+    <div id="main" role="main">
+			<h2>AudioJS</h2>
+			
+			<p>Fork of <a href="http://videojs.com/">VideoJS</a> for audio, with all themes from VideoJS</p>
+			
+			<h3>Authors</h3>
 
-    <!-- Begin AudioJS -->
-  <div class="audio-js-box">
-    <!-- Using the Audio for Everybody Embed Code http://camendesign.com/code/audio_for_everybody -->
-    <audio class="audio-js" controls preload>
-      <source src="Palace Cat - Crookshanks.mp3">
-    </audio>
+      Based on VideoJS from <a href="http://zencoder.com/">Zencoder</a> and modified by <a href="https://github.com/dz0ny">dz0ny</a> and <a href="https://github.com/jedfoster">jedfoster</a>
+
+      <hr>
+
+      <h4>Default Skin</h4>
+      
+      <div class="audio-js-box">
+        <audio class="audio-js" controls preload>
+          <source src="audio/Palace Cat - Crookshanks.mp3" type="audio/mpeg">
+      		<source src="audio/Palace Cat - Crookshanks.ogg" type="audio/ogg">
+      		<source src="audio/Palace Cat - Crookshanks.wav" type="audio/wav">
+        </audio>
+      </div>
+      
+      <hr>
+      
+      <h4>YouTube Skin</h4>
+      
+      <div class="audio-js-box tube-css">
+        <audio class="audio-js" controls preload>
+          <source src="audio/Palace Cat - Crookshanks.mp3" type="audio/mpeg">
+      		<source src="audio/Palace Cat - Crookshanks.ogg" type="audio/ogg">
+      		<source src="audio/Palace Cat - Crookshanks.wav" type="audio/wav">
+        </audio>
+      </div>
+
+      <hr>
+      
+      <h4>Vimeo Skin</h4>
+      
+      <div class="audio-js-box vim-css">
+        <audio class="audio-js" controls preload>
+          <source src="audio/Palace Cat - Crookshanks.mp3" type="audio/mpeg">
+      		<source src="audio/Palace Cat - Crookshanks.ogg" type="audio/ogg">
+      		<source src="audio/Palace Cat - Crookshanks.wav" type="audio/wav">
+        </audio>
+      </div>
+
+      <hr>
+      
+      <h4>Hulu Skin</h4>
+      
+      <div class="audio-js-box hu-css">
+        <audio class="audio-js" controls preload>
+          <source src="Palace Cat - Crookshanks.mp3">
+        </audio>
+      </div>
+      
+      <hr>
+      
+      <h4>WordPress Audio Player skin</h4>
+      
+      <p>I created<a href="http://jedfoster.github.com/html5-WP-audio-player/"> an HTML5 version</a> of the awesome <a href="http://wpaudioplayer.com/standalone/">WordPress Audio Player</a> by <a href="http://www.1pixelout.net/">Martin Laine</a> for browsers that support HTML5&#8217;s <code>&lt;audio&gt;</code> tag, with fallback to the original WP Audio Player for browsers that don&#8217;t.</p>
+      
+      <p>This isn't so much a "skin" as a new project based on this project. You should <a href="http://jedfoster.github.com/html5-WP-audio-player/">check it out!</a></p>
+      
+      <hr>
+      
+      <h3>Download</h3>
+
+      <p>You can download this project in either <a href="https://github.com/jedfoster/AudioJS/zipball/master">zip</a> or <a href="https://github.com/jedfoster/AudioJS/tarball/master">tar</a> formats.</p>
+      
+      
+      
+      <p>Audio sample is <a href="http://palacecat.bandcamp.com/track/crookshanks">Crookshanks by Palace Cat</a>, via <a href="http://duplokat.tumblr.com/post/12695092003/geek-friday-ringtone">duplokat</a></p>
+
+      <p><a href="https://github.com/jedfoster/audiojs">Fork me on GitHub!</a></p>
+
+      <!-- Include the AudioJS Library -->
+      <script src="audio.js" type="text/javascript" charset="utf-8"></script>
+
+      <script type="text/javascript" charset="utf-8">
+        // Must come after the audio.js library
+
+        // Add AudioJS to all audio tags on the page when the DOM is ready
+        AudioJS.setupAllWhenReady();
+
+        /* ============= OR ============ */
+
+        // Setup and store a reference to the player(s).
+        // Must happen after the DOM is loaded
+        // You can use any library's DOM Ready method instead of AudioJS.DOMReady
+
+        /*
+        AudioJS.DOMReady(function(){
+
+          // Using the video's ID or element
+          var myPlayer = AudioJS.setup("example_video_1");
+
+          // OR using an array of video elements/IDs
+          // Note: It returns an array of players
+          var myManyPlayers = AudioJS.setup(["example_video_1", "example_video_2", video3Element]);
+
+          // OR all videos on the page
+          var myManyPlayers = AudioJS.setup("All");
+
+          // After you have references to your players you can...(example)
+          myPlayer.play(); // Starts playing the video for this player.
+        });
+        */
+
+        /* ========= SETTING OPTIONS ========= */
+
+        // Set options when setting up the videos. The defaults are shown here.
+
+        /*
+        AudioJS.setupAllWhenReady({
+          controlsBelow: false, // Display control bar below video instead of in front of
+          controlsHiding: true, // Hide controls when mouse is not over the video
+          defaultVolume: 0.85, // Will be overridden by user's last volume if available
+          flashVersion: 9, // Required flash version for fallback
+          linksHiding: true // Hide download links when video is supported
+        });
+        */
+
+        // Or as the second option of AudioJS.setup
+
+        /*
+        AudioJS.DOMReady(function(){
+          var myPlayer = AudioJS.setup("example_video_1", {
+            // Same options
+          });
+        });
+        */
+
+      </script>
+    </div>
+
+		<div id="sidebar">      
+		</div>
+
+    <footer>
+
+    </footer>
   </div>
-  <!-- End AudioJS -->
+
+
+  <!-- JavaScript at the bottom for fast page loading -->
+	<script src="/js/prototaculous.min.js"></script>
+
+	<script src="/js/script.js"></script>
 </body>
 </html>

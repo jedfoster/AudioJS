@@ -1,10 +1,10 @@
 AudioJS
 --------
-Fork of VideoJS, for audio tags with support for themes.
+Fork of [VideoJS.com](http://videojs.com) for audio, with support for themes.
 
-View demo.html for an example of how to use it.
+<a href="http://jedfoster.github.com/AudioJS/">Check out the demo</a> for an example of how to use it.
 
-Based on [VideoJS.com](http://videojs.com) 
+Based on [VideoJS.com](http://videojs.com)
 
 
 Example jQuery plugin:
