@@ -43,15 +43,13 @@ so you can upgrade to newer versions easier. */
 }
 
 .ajs-hide {
-  opacity: 0 !important;
   -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; /* IE8 */
-  filter: alpha(opacity=0); /* IE5-7 */
+  opacity: 0 !important;
 }
 
 .ajs-show {
-  opacity: 1 !important;
   -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; /* IE8 */
-  filter: alpha(opacity=100); /* IE5-7 */
+  opacity: 1 !important;
 }
 
 .audio-js-box .ajs-controls > div { /* Direct div children of control bar */
