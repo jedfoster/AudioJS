@@ -40,6 +40,7 @@ so you can upgrade to newer versions easier. */
   -o-transition: opacity 0.5s linear;
   -ms-transition: opacity 0.5s linear;
   transition: opacity 0.5s linear;
+	font-size: 0;
 }
 
 .ajs-hide {
